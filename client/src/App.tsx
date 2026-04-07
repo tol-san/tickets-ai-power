@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Navbar } from "./components/Navbar";
-import { useAuth } from "./context/AuthContext";
-import { DashboardPage } from "./pages/DashboardPage";
-import { LoginPage } from "./pages/LoginPage";
+import { Navbar } from "./components/Navbar.tsx";
+import { useAuth } from "./context/useAuth.ts";
+import { DashboardPage } from "./pages/DashboardPage.tsx";
+import { LoginPage } from "./pages/LoginPage.tsx";
 
 function AppLayout() {
   const { user } = useAuth();

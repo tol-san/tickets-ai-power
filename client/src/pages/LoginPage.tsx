@@ -1,30 +1,49 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import type { FormEvent } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { z } from "zod";
+import { useAuth } from "../context/useAuth.ts";
+
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Email is required.")
+    .email("Please enter a valid email address."),
+  password: z
+    .string()
+    .min(1, "Password is required.")
+    .min(8, "Password must be at least 8 characters."),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = async (values: LoginFormValues) => {
     setError(null);
-    setIsSubmitting(true);
 
     try {
-      await signIn(email, password);
+      await signIn(values.email, values.password);
       navigate("/", { replace: true });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Invalid email or password.";
       setError(message);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -33,26 +52,36 @@ export function LoginPage() {
       <section className="login-card">
         <h1>Login</h1>
         <p>Access your helpdesk dashboard.</p>
-        <form onSubmit={handleSubmit} className="login-form">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="login-form"
+          noValidate
+        >
           <label htmlFor="email">Email</label>
           <input
             id="email"
             type="email"
             autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
+            className={errors.email ? "input-error" : undefined}
+            aria-invalid={errors.email ? "true" : "false"}
+            {...register("email")}
           />
+          {errors.email ? (
+            <p className="field-error">{errors.email.message}</p>
+          ) : null}
 
           <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
             autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
+            className={errors.password ? "input-error" : undefined}
+            aria-invalid={errors.password ? "true" : "false"}
+            {...register("password")}
           />
+          {errors.password ? (
+            <p className="field-error">{errors.password.message}</p>
+          ) : null}
 
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Logging in..." : "Login"}
