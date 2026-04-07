@@ -1,0 +1,23 @@
+{
+    "name": "tickets-ai-power",
+    "private": true,
+    "version": "0.1.0",
+    "workspaces": [
+        "client",
+        "server"
+    ],
+    "scripts": {
+        "dev": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
+        "dev:server": "bun run --cwd server dev",
+        "dev:client": "bun run --cwd client dev",
+        "build": "bun run --cwd server build && bun run --cwd client build",
+        "start": "bun run --cwd server start"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1",
+        "prisma": "6.19.2"
+    },
+    "dependencies": {
+        "@prisma/client": "6.19.2"
+    }
+}

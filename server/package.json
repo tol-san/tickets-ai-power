@@ -1,0 +1,29 @@
+{
+    "name": "server",
+    "private": true,
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "dev": "bun --watch src/index.ts",
+        "build": "bun build ./src/index.ts --outdir ./dist --target bun",
+        "start": "bun ./dist/index.js",
+        "prisma:generate": "bunx prisma@6.19.2 generate",
+        "prisma:migrate": "bunx prisma@6.19.2 migrate dev --name init",
+        "db:recreate": "bun run src/scripts/recreate-helpdesk-db.ts",
+        "db:setup": "bun run db:recreate; bunx prisma@6.19.2 db push --force-reset; bunx prisma@6.19.2 generate"
+    },
+    "dependencies": {
+        "@prisma/client": "^6.19.2",
+        "cors": "^2.8.5",
+        "dotenv": "^17.4.1",
+        "express": "^5.1.0",
+        "mysql2": "^3.20.0"
+    },
+    "devDependencies": {
+        "@types/bun": "latest",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.5",
+        "prisma": "^6.19.2",
+        "typescript": "^5.9.3"
+    }
+}
