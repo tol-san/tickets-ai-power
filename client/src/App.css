@@ -1,0 +1,171 @@
+.page-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2a3c54;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.top-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #0f2d52, #18436f);
+  color: #f7fbff;
+}
+
+.top-nav__brand {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.top-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.top-nav__user {
+  font-weight: 600;
+}
+
+.top-nav__button {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.top-nav__button:hover:enabled {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.top-nav__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.top-nav__error {
+  flex-basis: 100%;
+  margin: 0;
+  color: #ffe4e2;
+}
+
+.page-content {
+  padding: 1.5rem;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 30px rgba(33, 50, 82, 0.12);
+}
+
+.login-card h1 {
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+}
+
+.login-card p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #4b5f7a;
+}
+
+.login-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.login-form label {
+  font-weight: 600;
+  color: #1f2f45;
+}
+
+.login-form input {
+  width: 100%;
+  border: 1px solid #c5d2e2;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+}
+
+.login-form input:focus {
+  outline: 2px solid #8db5e4;
+  outline-offset: 1px;
+}
+
+.login-form button {
+  margin-top: 0.5rem;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  background: #0f2d52;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.login-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.form-error {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: #ba1a1a;
+}
+
+.dashboard-page {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 22px rgba(29, 48, 80, 0.08);
+}
+
+.dashboard-page h1 {
+  margin-top: 0;
+}
+
+.dashboard-page p {
+  margin-bottom: 0;
+  color: #445975;
+}
+
+@media (max-width: 640px) {
+  .top-nav {
+    padding: 1rem;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+
+  .login-card {
+    padding: 1.25rem;
+  }
+}

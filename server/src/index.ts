@@ -1,20 +1,13 @@
 import cors from "cors";
 import express from "express";
-import session from "express-session";
-import { SESSION_COOKIE_NAME, SESSION_TTL_MS } from "./lib/auth-constants";
+import { toNodeHandler } from "better-auth/node";
 import { prisma } from "./lib/prisma";
-import { PrismaSessionStore } from "./lib/session-store";
+import { auth } from "./lib/auth";
 import { authRouter } from "./routes/auth";
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 3001);
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
-const isProduction = process.env.NODE_ENV === "production";
-const sessionSecret = process.env.SESSION_SECRET;
-
-if (!sessionSecret && isProduction) {
-    throw new Error("SESSION_SECRET is required in production.");
-}
 
 app.use(
     cors({
@@ -23,23 +16,8 @@ app.use(
     }),
 );
 app.use(express.json());
-app.use(
-    session({
-        name: SESSION_COOKIE_NAME,
-        secret: sessionSecret ?? "dev-only-change-me",
-        resave: false,
-        saveUninitialized: false,
-        store: new PrismaSessionStore(prisma),
-        cookie: {
-            maxAge: SESSION_TTL_MS,
-            httpOnly: true,
-            sameSite: "lax",
-            secure: isProduction,
-        },
-    }),
-);
-
-app.use("/api/auth", authRouter);
+app.all("/api/auth/*splat", toNodeHandler(auth));
+app.use("/api", authRouter);
 
 app.get("/api/health", async (_req, res) => {
     try {

@@ -7,14 +7,18 @@
         "dev": "bun --watch src/index.ts",
         "build": "bun build ./src/index.ts --outdir ./dist --target bun",
         "start": "bun ./dist/index.js",
+        "auth:generate": "bunx auth generate --config ./src/lib/auth.ts --output ./prisma/schema.prisma -y",
         "prisma:generate": "bunx prisma@6.19.2 generate",
         "prisma:migrate": "bunx prisma@6.19.2 migrate dev --name init",
         "db:recreate": "bun run src/scripts/recreate-helpdesk-db.ts",
-        "db:setup": "bun run db:recreate; bunx prisma@6.19.2 db push --force-reset; bunx prisma@6.19.2 generate"
+        "db:seed:admin": "bun run src/scripts/seed-admin-user.ts",
+        "db:setup": "bun run db:recreate; bun run auth:generate; bunx prisma@6.19.2 db push --force-reset; bunx prisma@6.19.2 generate"
     },
     "dependencies": {
+        "@better-auth/prisma-adapter": "^1.6.0",
         "@prisma/client": "^6.19.2",
         "bcryptjs": "^3.0.3",
+        "better-auth": "^1.6.0",
         "cors": "^2.8.5",
         "dotenv": "^17.4.1",
         "express": "^5.1.0",
