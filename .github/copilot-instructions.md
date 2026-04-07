@@ -24,7 +24,22 @@
   - Client: `5173`
   - Server: `3001`
 - Server reads `PORT` from environment and defaults to `3001`.
+- Required server environment variables live in `server/.env`:
+  - `DATABASE_URL` for Prisma application access
+  - `ADMIN_DATABASE_URL` for database recreation/setup scripts
+- If changing `PORT`, keep `client/vite.config.ts` proxy target in sync.
 - Prefer Bun commands over npm/yarn/pnpm for this repository.
+
+## Build And Validation
+
+- Root-level preferred commands:
+  - `bun run dev`
+  - `bun run build`
+  - `bun run start`
+- Package-level commands when working in one area:
+  - Client lint: `bun --cwd client run lint`
+  - Server DB setup: `bun --cwd server run db:setup`
+- There is currently no root test command; do not assume a test runner is configured.
 
 ## TypeScript And Modules
 
